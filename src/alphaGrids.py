@@ -19,16 +19,6 @@ if __name__ == '__main__':
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasS20.csv', delimiter=','))
     alphas.append(
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasS10.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO50.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO40.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO30.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO20.csv', delimiter=','))
-    # alphas.append(
-    # #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO10.csv', delimiter=','))
     # for i in range(len(S)):
     #     noFilt,filt = imgRecover(boat, 8, S[i], alphas[i], 'Boat')
     #     rasterRecon = np.reshape(noFilt, (-1, 1))
@@ -48,16 +38,7 @@ if __name__ == '__main__':
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasS30.csv', delimiter=','))
     natureAlphas.append(
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasS10.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO150.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO100.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO50.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO30.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO10.csv', delimiter=','))
+
     for i in range(len(alphas)):
         imgShow(np.log10(alphas[i]), 'log10(regularization parameter) of Boat by Image Block, S = ' + str(S[i]))
     S = [150, 100, 50, 30, 10]

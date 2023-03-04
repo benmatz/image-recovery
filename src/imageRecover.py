@@ -70,8 +70,6 @@ def compressSimulate(imgOut, p):
 
 
 def generateBasisVector(blkSize, u, v):
-    # Q = len(chip)
-    # P = len(chip[0])
     Q = blkSize
     P = blkSize
     alpha = np.sqrt(2 / P)
@@ -92,8 +90,6 @@ def generateBasisVector(blkSize, u, v):
 
 def generateBasisMatrix(blkSize):
     mat = []
-    # Q = len(chip)
-    # P = len(chip[0])
     Q = blkSize
     P = blkSize
     for u in range(1, P + 1):
@@ -149,11 +145,7 @@ def imgRecoverBench(imgIn, blkSize, numSample, alpha, x, y, fname, benchmark=Fal
     :param numSample: how many samples in each block
     :return: recovered image
     """
-    # if fname == 'boatcrop':
-    #cropped = imgBlock(imgIn, blkSize, blkSize*x, blkSize*y) #x = 17, y = 25
     cropped = imgIn
-    # else:
-    #     cropped = imgBlock(imgIn, blkSize, (blkSize*(2-1))+1, (blkSize*(13-1))+1) #x = 17, y = 193
     p = float(((blkSize**2)-numSample)/(blkSize**2))
     c = compressSimulate(cropped, p)
     if benchmark==False:
@@ -171,19 +163,10 @@ def imgRecoverBench(imgIn, blkSize, numSample, alpha, x, y, fname, benchmark=Fal
 
 
 def stitch(imgIn, K, y, x):
-    imgOut = np.zeros((8, 16))
     imgOut = np.zeros((y, x))
     for i in range(y):
         for j in range(x):
-            #imgOut[i][j] = imgIn[(j//K) + (j*(i//K))][i%K][j%K]
             imgOut[i][j] = imgIn[(j//K) + ((x//K)*(i//K))][i % K][j % K]
-            #print(i, j, (j//K) + 24*((i//K)))
-            # imgOut[0][0] = imgIn[0][0][0]
-            # imgOut[0][1] = imgIn[0][0][1]
-            # imgOut[0][7] = imgIn[0][0][7]
-            # imgOut[0][8] = imgIn[1][0][0]
-            # imgOut[1][0] = imgIn[0][1][0]
-            # imgOut[8][0] = imgIn[24][0][0]
     return np.asarray(imgOut)
 
 
@@ -228,16 +211,6 @@ def imgRecover(imgIn, blkSize, numSample, alphas, fname):
 
 
 if __name__ == '__main__':
-    grammy = imgRead('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/grammy.png')
-    newG = []
-    for y in range(1136):
-        newG.append([])
-        for x in range(800):
-            newG[y].append(grammy[y][x])
-    gArr = np.asarray(newG)
-    # for i in range(4):
-    #     imgRecover((gArr[:, :, 0]), 16, 150, np.zeros([1000, 1000]), '')
-    # imgShow(grammy)
     boat = imgRead('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/fishing_boat.bmp')
     S = [50, 40, 30, 20, 10]
     K = 8
@@ -252,39 +225,9 @@ if __name__ == '__main__':
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasS20.csv', delimiter=','))
     alphas.append(
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasS10.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO50.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO40.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO30.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO20.csv', delimiter=','))
-    # alphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/bestAlphasSLASSO10.csv', delimiter=','))
+
     for i in range(len(S)):
-        p = float(((K ** 2) - S[i]) / (K ** 2))
-        # c = compressSimulate(b, p)
-        # imgShow(c, 'Boat Compression, S = ' + str(S[i]) + ", K = " + str(K))
-        # imgRecover(boat, 8, S[i], alphas[i], 'Boat')
-
-
-    # imgIn = boat
-    # blkSize = 8
-    # i = len(imgIn)
-    # j = len(imgIn[0])
-    # B = generateBasisMatrix(blkSize)
-    # testAlphas = np.linspace(np.log(10 ** -6), np.log(10 ** 6), 36)
-    # for y in range(3):
-    #     for x in range(3):
-    #         #print(blkSize*y, blkSize*x)
-    #         b = imgBlock(boat, blkSize, blkSize*y, blkSize*x)
-    #         # imgShow(b)
-    #         c = compressSimulate(b, (10/64))
-    #         A, D = deletePoints(B, c)
-    #         # L = LASSO(B, A, D, 0).reshape(blkSize, blkSize)
-    #         #imgShow(c)
-    #         # imgShow(L)
+        imgRecover(boat, 8, S[i], alphas[i], 'Boat')
 
     nature = imgRead('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/nature.bmp')
     natureAlphas = []
@@ -300,20 +243,6 @@ if __name__ == '__main__':
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasS30.csv', delimiter=','))
     natureAlphas.append(
         np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasS10.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO150.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO100.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO50.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO30.csv', delimiter=','))
-    # natureAlphas.append(
-    #     np.loadtxt('/Users/benmatz/Box/Duke/Spring2023/ECE 580/Projects/MP1/data/natureBestAlphasSLASSO10.csv', delimiter=','))
+
     for i in range(len(S2)):
-        p = float(((K2 ** 2) - S2[i]) / (K2 ** 2))
-        # c2 = compressSimulate(nature, p)
-        # imgShow(c2, 'Nature Compression, S = ' + str(S2[i]) + ", K = " + str(K2))
-        # imgRecover(nature, 16, S2[i], natureAlphas[i], 'Nature')
-    # imgShow(boat, 'Boat Original')
-    # imgShow(nature, 'Nature Original')
+        imgRecover(nature, 16, S2[i], natureAlphas[i], 'Nature')
